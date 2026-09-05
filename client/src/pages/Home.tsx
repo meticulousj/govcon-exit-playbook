@@ -14,6 +14,7 @@ import {
   ClipboardCheck,
   Crosshair,
   FileText,
+  FileDown,
   Menu,
   MoveRight,
   ShieldCheck,
@@ -25,6 +26,7 @@ import {
 const heroTexture = "/manus-storage/federal-signal-hero-texture_aeca80d7.png";
 const diagramTexture = "/manus-storage/federal-signal-diagram-texture_3cc8f379.png";
 const brandMark = "/manus-storage/federal-signal-mark_b83d70c3.png";
+const downloadablePdf = "/manus-storage/govcon-exit-playbook-100m_086c5b14.pdf";
 
 const navItems = [
   { id: "thesis", label: "Thesis" },
@@ -139,6 +141,17 @@ export default function Home() {
     scrollToId(id);
   };
 
+  const handleExport = () => {
+    setMenuOpen(false);
+    const link = document.createElement("a");
+    link.href = downloadablePdf;
+    link.download = "govcon-exit-playbook-100m.pdf";
+    link.rel = "noopener";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  };
+
   return (
     <main className="site-shell">
       <aside className="signal-rail" aria-label="Playbook sections">
@@ -164,11 +177,11 @@ export default function Home() {
             <img src={brandMark} alt="" />
             <span>THE $100M GOVCON EXIT PLAYBOOK</span>
           </button>
-          <div className="topbar-lockup"><img src={brandMark} alt="" /><span>THE <strong>$100M</strong> GOVCON EXIT PLAYBOOK</span></div><div className="topbar-meta"><span className="status-dot" /> Strategic operating brief <span className="meta-divider" /> Sep 2026</div>
+          <div className="topbar-lockup"><img src={brandMark} alt="" /><span>THE <strong>$100M</strong> GOVCON EXIT PLAYBOOK</span></div><div className="topbar-meta"><span className="status-dot" /> Strategic operating brief <span className="meta-divider" /> Sep 2026</div><button className="export-button" onClick={handleExport}><FileDown size={14} /> <span>Export PDF</span></button>
           <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle section menu" aria-expanded={menuOpen}>
             {menuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
-          {menuOpen && <nav className="mobile-menu">{navItems.map((item, index) => <button key={item.id} onClick={() => handleNav(item.id)}><span>{String(index + 1).padStart(2, "0")}</span>{item.label}</button>)}</nav>}
+          {menuOpen && <nav className="mobile-menu"><button className="mobile-export" onClick={handleExport}><FileDown size={14} /><span>Download the complete playbook PDF</span></button>{navItems.map((item, index) => <button key={item.id} onClick={() => handleNav(item.id)}><span>{String(index + 1).padStart(2, "0")}</span>{item.label}</button>)}</nav>}
         </header>
 
         <section id="thesis" className="hero-section section-anchor" style={{ backgroundImage: `linear-gradient(100deg, rgba(10,13,17,0.97) 0%, rgba(10,13,17,0.89) 54%, rgba(10,13,17,0.63) 100%), url(${heroTexture})` }}>
@@ -244,7 +257,7 @@ export default function Home() {
           <div className="closing-block"><div className="closing-mark"><img src={brandMark} alt="" /></div><div><span className="eyebrow dark"><span className="eyebrow-line" /> FINAL DECISION</span><h2>Build the company<br /><em>that can be transferred.</em></h2><p>Revenue earns a seat at the table. Evidence, control, and a second layer of leadership earn the price.</p></div><button className="btn btn-dark" onClick={() => handleNav("thesis")}>Read the thesis again <ArrowUpRight size={17} /></button></div>
         </section>
 
-        <footer className="site-footer"><div><span className="footer-code">FS / 100</span><p>THE $100M GOVCON EXIT PLAYBOOK</p></div><div className="footer-disclaimer">Strategic planning content. Not financial, legal, tax, or government-contracting compliance advice. Review with qualified advisers before implementation.</div><div className="footer-ref">Source brief / September 2026</div></footer>
+        <footer className="site-footer"><div><span className="footer-code">FS / 100</span><p>THE $100M GOVCON EXIT PLAYBOOK</p><button className="footer-export" onClick={handleExport}><FileDown size={13} /> Download the complete PDF brief</button></div><div className="footer-disclaimer">Strategic planning content. Not financial, legal, tax, or government-contracting compliance advice. Review with qualified advisers before implementation.</div><div className="footer-ref">Source brief / September 2026</div></footer>
       </div>
     </main>
   );

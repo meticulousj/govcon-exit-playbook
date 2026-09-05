@@ -1,0 +1,14 @@
+{
+  "task_kind": "markdown-to-pdf",
+  "output": "pdf",
+  "signals": ["executive report", "GovCon exit playbook"],
+  "hard_constraints": ["professionally formatted", "offline reading", "Letter-size PDF"],
+  "content_features": {
+    "code_blocks": 0,
+    "defined_terms": 0,
+    "portrait_images": 0,
+    "tables": 9,
+    "references": 5,
+    "longform_sections": 13
+  }
+}
