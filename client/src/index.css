@@ -451,3 +451,35 @@
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+/* Lead-capture download dialog: the PDF gate is styled as a controlled Federal Signal access panel. */
+.capture-overlay { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; padding: 22px; background: rgba(4,7,10,.78); backdrop-filter: blur(12px); animation: capture-fade 180ms var(--ease-out) both; }
+.capture-dialog { width: min(100%, 520px); position: relative; background: var(--cream); color: var(--ink); padding: 38px 40px 31px; box-shadow: 0 24px 90px rgba(0,0,0,.42); animation: capture-rise 220ms var(--ease-out) both; }
+.capture-dialog::before { content: ""; position: absolute; left: 0; top: 0; width: 100%; height: 3px; background: var(--orange); }
+.capture-close { position: absolute; top: 15px; right: 15px; width: 34px; height: 34px; display: grid; place-items: center; color: #6b7377; background: transparent; border: 1px solid rgba(17,24,33,.18); transition: color 160ms ease, background 160ms ease, transform 160ms var(--ease-out); }
+.capture-close:hover { color: var(--ink); background: rgba(17,24,33,.08); }
+.capture-close:active { transform: scale(.96); }
+.capture-kicker { display: flex; align-items: center; gap: 10px; color: #8f4f26; font-family: "Space Grotesk", sans-serif; font-size: 9px; letter-spacing: .16em; }
+.capture-mark { width: 28px; height: 28px; display: grid; place-items: center; background: var(--ink); }
+.capture-mark img { width: 20px; height: 20px; object-fit: contain; }
+.capture-dialog h2 { font-family: "Space Grotesk", sans-serif; font-size: clamp(2.45rem, 6vw, 4.1rem); line-height: .88; letter-spacing: -.08em; margin: 30px 0 18px; }
+.capture-dialog h2 em { color: #b85f21; font-family: Georgia, serif; font-weight: 400; letter-spacing: -.06em; }
+.capture-dialog > p { max-width: 390px; color: #566068; font-size: 14px; line-height: 1.55; margin-bottom: 25px; }
+.capture-dialog form { display: grid; gap: 16px; }
+.capture-dialog label { display: grid; gap: 7px; font-family: "Space Grotesk", sans-serif; font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: #697278; }
+.capture-input { display: flex; align-items: center; gap: 10px; min-height: 47px; padding: 0 13px; border: 1px solid rgba(17,24,33,.24); background: rgba(255,255,255,.36); color: #9d5a2c; transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease; }
+.capture-input:focus-within { border-color: #b85f21; background: #fffaf1; box-shadow: 0 0 0 3px rgba(184,95,33,.12); }
+.capture-input input { width: 100%; border: 0; outline: 0; background: transparent; color: var(--ink); font-family: "DM Sans", sans-serif; font-size: 14px; letter-spacing: 0; text-transform: none; }
+.capture-input input::placeholder { color: #8b9496; }
+.capture-error { margin: -3px 0 0 !important; padding: 9px 11px; border-left: 2px solid #b85f21; background: rgba(184,95,33,.08); color: #8f4f26 !important; font-family: "Space Grotesk", sans-serif; font-size: 11px !important; line-height: 1.4 !important; }
+.capture-submit { width: 100%; justify-content: center; margin-top: 3px; }
+.capture-note { display: flex; align-items: flex-start; gap: 8px; max-width: none !important; margin: 20px 0 0 !important; color: #798287 !important; font-size: 10px !important; line-height: 1.45 !important; }
+.capture-note svg { flex: 0 0 auto; color: #9d5a2c; margin-top: 1px; }
+@keyframes capture-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes capture-rise { from { opacity: 0; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@media (max-width: 640px) {
+  .capture-overlay { padding: 14px; align-items: end; }
+  .capture-dialog { padding: 31px 23px 24px; }
+  .capture-dialog h2 { margin-top: 25px; }
+}
+@media print { .capture-overlay { display: none !important; } }

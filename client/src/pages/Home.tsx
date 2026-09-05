@@ -16,7 +16,9 @@ import {
   FileText,
   FileDown,
   Menu,
+  Mail,
   MoveRight,
+  UserRound,
   ShieldCheck,
   Target,
   X,
@@ -113,6 +115,10 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState("thesis");
   const [scenarioId, setScenarioId] = useState("base");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [captureOpen, setCaptureOpen] = useState(false);
+  const [captureName, setCaptureName] = useState("");
+  const [captureEmail, setCaptureEmail] = useState("");
+  const [captureError, setCaptureError] = useState("");
 
   const selectedScenario = useMemo(
     () => scenarios.find((scenario) => scenario.id === scenarioId) ?? scenarios[1],
@@ -143,6 +149,27 @@ export default function Home() {
 
   const handleExport = () => {
     setMenuOpen(false);
+    setCaptureError("");
+    setCaptureOpen(true);
+  };
+
+  const closeCapture = () => {
+    setCaptureOpen(false);
+    setCaptureError("");
+  };
+
+  const handleLeadSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const name = captureName.trim();
+    const email = captureEmail.trim();
+    if (name.length < 2) {
+      setCaptureError("Enter your full name to continue.");
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setCaptureError("Enter a valid email address to continue.");
+      return;
+    }
     const link = document.createElement("a");
     link.href = downloadablePdf;
     link.download = "govcon-exit-playbook-100m.pdf";
@@ -150,6 +177,8 @@ export default function Home() {
     document.body.appendChild(link);
     link.click();
     link.remove();
+    setCaptureOpen(false);
+    setCaptureError("");
   };
 
   return (
@@ -259,6 +288,7 @@ export default function Home() {
 
         <footer className="site-footer"><div><span className="footer-code">FS / 100</span><p>THE $100M GOVCON EXIT PLAYBOOK</p><button className="footer-export" onClick={handleExport}><FileDown size={13} /> Download the complete PDF brief</button></div><div className="footer-disclaimer">Strategic planning content. Not financial, legal, tax, or government-contracting compliance advice. Review with qualified advisers before implementation.</div><div className="footer-ref">Source brief / September 2026</div></footer>
       </div>
+      {captureOpen && <div className="capture-overlay" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) closeCapture(); }}><section className="capture-dialog" role="dialog" aria-modal="true" aria-labelledby="capture-title" aria-describedby="capture-description"><button className="capture-close" type="button" onClick={closeCapture} aria-label="Close PDF download form"><X size={18} /></button><div className="capture-kicker"><span className="capture-mark"><img src={brandMark} alt="" /></span><span>FEDERAL SIGNAL / PDF ACCESS</span></div><h2 id="capture-title">Take the brief<br /><em>with you.</em></h2><p id="capture-description">Enter your name and email to unlock the complete 16-page GovCon Exit Playbook PDF.</p><form onSubmit={handleLeadSubmit} noValidate><label><span>Full name</span><div className="capture-input"><UserRound size={16} /><input autoFocus value={captureName} onChange={(event) => setCaptureName(event.target.value)} placeholder="Jordan Smith" autoComplete="name" /></div></label><label><span>Email address</span><div className="capture-input"><Mail size={16} /><input type="email" value={captureEmail} onChange={(event) => setCaptureEmail(event.target.value)} placeholder="jordan@company.com" autoComplete="email" /></div></label>{captureError && <p className="capture-error" role="alert">{captureError}</p>}<button className="btn btn-primary capture-submit" type="submit"><FileDown size={16} /> Download the PDF</button></form><p className="capture-note"><ShieldCheck size={14} /> This version validates the form in-browser. Connect a CRM or secure endpoint to store submissions.</p></section></div>}
     </main>
   );
 }

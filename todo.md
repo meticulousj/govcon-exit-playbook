@@ -1,14 +1,15 @@
-# Downloadable PDF Artifact
+# PDF Lead-Capture Gate
 
-The downloadable PDF feature is complete. The website header, mobile menu, and footer now download the hosted artifact directly as `govcon-exit-playbook-100m.pdf`.
+The gated download flow is complete. Every PDF entry point opens a Federal Signal access dialog that requires a full name and valid email address before the file download is triggered. The dialog includes accessible labels, autofocus, inline validation, error messaging, close behavior, keyboard-friendly controls, and responsive mobile styling.
 
-The PDF is a verified 16-page A4 document generated from the playbook source with cleaned section headings and professional report styling. The print-to-PDF stylesheet remains available as a fallback for browser-based custom printing.
+The current project remains frontend-only, so the form validates and gates access but does not persist lead records. The dialog states this clearly and recommends connecting a CRM or secure endpoint for actual storage.
 
 | Check | Status |
 |---|---|
-| PDF compilation | Passed |
-| PDF verification | Passed: 6 pass, 0 warnings, 0 failures |
-| Persistent asset upload | Passed |
-| Website type check | Passed |
+| Name validation | Passed in code |
+| Email validation | Passed in code |
+| Download gated until valid submission | Complete |
+| Desktop/mobile entry points | Complete |
+| TypeScript check | Passed |
 | Production build | Passed |
-| Download control integration | Complete |
+| Landing preview | Verified |
